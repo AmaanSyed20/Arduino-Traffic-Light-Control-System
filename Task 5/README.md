@@ -1,35 +1,28 @@
-Task 5 · UART Communication Between Two Arduinos
+# Task 5 · Traffic Light Control Using UART
 
-This task extends the "Task 4 pedestrian-crossing prototype" (../Task%204/) by distributing the vehicle and pedestrian signals across two separate Arduino microcontrollers. Instead of controlling both signals from a single board, the two controllers exchange crossing requests and status signals through UART communication.
+This task extends the [Task 4 pedestrian-crossing prototype](../Task%204/) by distributing the vehicle and pedestrian signals across two separate Arduino microcontrollers. The controllers exchange crossing requests and status signals through UART communication.
 
-"Watch the hardware demonstration" (./Traffic_Light_Demo.mp4)
+[Watch the traffic light system demonstration](./Traffic_Light_Demo.mp4)
 
-Implementation
+## Communication between the controllers
 
-One Arduino controls the red, yellow and green vehicle LEDs, while the second controls the pedestrian LEDs and reads the push-button input.
+UART provides bidirectional communication without requiring a separate clock signal. The `SoftwareSerial` library enables communication at 9600 baud using digital pins D2 and D3. The transmit pin of each Arduino connects to the receive pin of the other, and both controllers share a common ground.
 
-When a pedestrian requests a crossing, the pedestrian controller sends a signal to the vehicle controller. The vehicle signal transitions through yellow to red before granting permission to cross. Once the crossing phase ends, the pedestrian controller sends a completion signal, allowing the vehicle signal to return to green.
+## Crossing sequence
 
-Arduino pin assignments
+When the pedestrian button is pressed, the pedestrian controller sends a crossing request to the vehicle controller. The vehicle signal passes through yellow to red before permission to cross is transmitted.
 
-Connection| Vehicle Arduino| Pedestrian Arduino
-Red LED| D9| D10
-Yellow LED| D7| —
-Green LED| D5| D5
-Push-button| —| D8
-UART RX| D2| D2
-UART TX| D3| D3
+After the crossing phase ends, the pedestrian signal returns to red and sends a completion signal. The vehicle controller then transitions through red and yellow before returning to green.
 
-The transmit pin of each Arduino connects to the receive pin of the other. Both controllers share a common ground.
+## Arduino pin assignments
 
-Communication interface
+| Connection | Vehicle Arduino | Pedestrian Arduino |
+|---|---|---|
+| Red LED | D9 | D10 |
+| Yellow LED | D7 | — |
+| Green LED | D5 | D5 |
+| Push-button | — | D8 |
+| UART RX | D2 | D2 |
+| UART TX | D3 | D3 |
 
-UART was selected because the system only requires communication between two microcontrollers. Unlike SPI, it does not require a separate clock signal, and unlike I2C, it does not require device addressing.
-
-The "SoftwareSerial" library enables bidirectional communication at 9600 baud through pins D2 and D3, leaving the hardware serial interface available for debugging.
-
-Hardware testing
-
-The vehicle and pedestrian circuits can be tested independently before establishing UART communication. This separates potential wiring problems from communication errors and simplifies debugging.
-
-The hardware demonstration documents the two-controller breadboard implementation as the next stage of the ongoing lab project.
+Unlike the [Task 2 pedestrian-crossing design](../Task%202/), the two signals are controlled by independent microcontrollers. The hardware recording documents the integration of serial communication into the ongoing lab project.
