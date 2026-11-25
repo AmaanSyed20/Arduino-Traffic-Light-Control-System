@@ -10,6 +10,7 @@ An ongoing Embedded Systems lab project at Hochschule Hamm-Lippstadt. The projec
 | [Task 2](./Task%202/) | Design a push-button pedestrian crossing | State diagram, circuit image and Tinkercad simulation |
 | [Task 3](./Task%203/) | Build the Task 1 vehicle signal on a breadboard | Hardware demonstration video |
 | [Task 4](./Task%204/) | Build the Task 2 pedestrian crossing on a breadboard | Hardware demonstration video |
+| [Task 5](./Task%205/) | Coordinate two Arduino controllers using UART | Hardware demonstration video |
 
 ## How the controller develops
 
